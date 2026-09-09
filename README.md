@@ -81,4 +81,3 @@ Les compétences (stockées en une chaîne séparée par `;`) sont également é
 ## Auteur
 
 **Daphne Fotso** — Data Analyst spécialisée Big Data & IA
-Certifications PL-300, DP-900 · En préparation : Databricks Data Engineer Associate
