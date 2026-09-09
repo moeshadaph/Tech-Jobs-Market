@@ -1,0 +1,256 @@
+{
+  "datasets": [
+    {
+      "name": "cc6be9f7",
+      "displayName": "Dataset 1",
+      "queryLines": [
+        "-- Dataset 1 : compétences les plus demandées\r\n",
+        "SELECT skill, nb_offres\r\n",
+        "FROM tech_jobs_market.pipeline.top_skills\r\n",
+        "ORDER BY nb_offres DESC\r\n",
+        "LIMIT 15"
+      ]
+    },
+    {
+      "name": "7cfc3f30",
+      "displayName": "Dataset 2",
+      "queryLines": [
+        "-- Dataset 2 : salaires par niveau d'expérience\r\n",
+        "SELECT experience_level, salaire_min_moyen, salaire_max_moyen, nb_offres\r\n",
+        "FROM tech_jobs_market.pipeline.salary_by_level\r\n",
+        "ORDER BY salaire_min_moyen ASC"
+      ]
+    },
+    {
+      "name": "30198d1f",
+      "displayName": "Dataset 3",
+      "queryLines": [
+        "-- Dataset 3 : répartition géographique\r\n",
+        "SELECT city, remote, nb_offres\r\n",
+        "FROM tech_jobs_market.pipeline.jobs_by_city\r\n",
+        "ORDER BY nb_offres DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "7cbb2618",
+      "displayName": "Dashboards",
+      "layout": [
+        {
+          "widget": {
+            "name": "competences-demandees",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "cc6be9f7",
+                  "fields": [
+                    {
+                      "name": "sum(nb_offres)",
+                      "expression": "SUM(`nb_offres`)"
+                    },
+                    {
+                      "name": "skill",
+                      "expression": "`skill`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": false,
+                "title": {
+                  "value": "Skills requested",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(nb_offres)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "skill",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": false
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 10,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "salaires-par-niveau",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7cfc3f30",
+                  "fields": [
+                    {
+                      "name": "sum(salaire_max_moyen)",
+                      "expression": "SUM(`salaire_max_moyen`)"
+                    },
+                    {
+                      "name": "sum(salaire_min_moyen)",
+                      "expression": "SUM(`salaire_min_moyen`)"
+                    },
+                    {
+                      "name": "experience_level",
+                      "expression": "`experience_level`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Salary requested",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "layout": "group"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "sum(salaire_max_moyen)"
+                    },
+                    {
+                      "fieldName": "sum(salaire_min_moyen)"
+                    }
+                  ]
+                },
+                "y": {
+                  "fieldName": "experience_level",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": false
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 6,
+            "width": 8,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "repartition-geographique",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "30198d1f",
+                  "fields": [
+                    {
+                      "name": "remote",
+                      "expression": "`remote`"
+                    },
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "sum(nb_offres)",
+                      "expression": "SUM(`nb_offres`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Geographical distribution",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "city",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(nb_offres)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "remote",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
